@@ -15,14 +15,14 @@
 
 body {
   margin: 0;
-  padding: 10px 14px;
+  padding: 12px 14px 20px;
   font-family: 'Fredoka', sans-serif;
   background: linear-gradient(160deg, #FFE6F0 0%, #FFF1D6 50%, #E0F7FA 100%);
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   color: var(--text);
   overflow-x: hidden;
   position: relative;
