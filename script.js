@@ -1,24 +1,24 @@
 // ==========================================
 // 🔧 KUSTOMISASI MUDAH DI SINI
 // ==========================================
-const FOTO_KAMU = "foto-kamu.jpg"; // Ganti sesuai nama file fotomu di GitHub
+const FOTO_KAMU = "foto1.jpeg";[cite: 1]
 
 const KATA_SEMANGAT = [
-  "Keren banget! Senyummu tuh bikin ruangan jadi cerah ✨",
-  "Kamu luar biasa hari ini, jangan lupa minum air putih ya! 💧",
-  "Hari ini pantes banget ditutup pake jajan enak kesukaanmu! 🧋",
-  "Energi positifmu nular banget nih, gas terus! 🌟",
-  "Kamu berharga banget, aku selalu seneng punya temen kayak kamu 💖",
-  "Auto happy! Habis ini kita ketawa-ketawa lagi ya 😄",
+  "Keren banget! anjayyy gelo bos ✨",
+  "Luar bisaaa, jangan lupa minum air putih ya! 💧",
+  "Hmmm, horeee hip hip horee! 🧋",
+  "Jangan sedih kak, Langit mendung tauu! 🌟",
+  "Mendung el, Ga jadi muncak loh 💖",
+  "Gelooo elll, kerenn 😄",
   "Hebat! Satu pukulan ceria buat hari yang makin seru 🎉",
-  "Kamu keren tanpa perlu berusaha keras, beneran deh! 😎"
+  "Kamu selalu keren, Tp kalo marah serem! 😎"
 ];
 
 const KATA_SALAH_PUKUL = [
-  "ADUH! Kok mukaku yang kena pukul sih?! 😭",
-  "Woy! Ini aku bestie-mu, bukan target! 😤",
-  "Eits kena aku! Hukumannya traktir es krim ya 🍦",
-  "Aduh benjol! Fokus dong, matanya mana nih 🤣"
+  "CIT! Aduhhh sakit jir! 🧼🐭",
+  "Woy! Kok aku dipukul el?! 😭",
+  "Eits! Ga kena upsi",
+  "Aduh, Ea ea 🤣"
 ];
 
 const TARGET_ICONS = ["👾", "🦄", "🍄", "🍬", "🛸"];
@@ -49,6 +49,15 @@ function playTone(type) {
     gain.gain.exponentialRampToValueAtTime(0.01, now + 0.13);
     osc.start(now);
     osc.stop(now + 0.13);
+  } else if (type === "squeak") {
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(950, now);
+    osc.frequency.exponentialRampToValueAtTime(1750, now + 0.08);
+    osc.frequency.exponentialRampToValueAtTime(720, now + 0.18);
+    gain.gain.setValueAtTime(0.22, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.19);
+    osc.start(now);
+    osc.stop(now + 0.19);
   } else if (type === "oops") {
     osc.type = "triangle";
     osc.frequency.setValueAtTime(240, now);
@@ -169,7 +178,18 @@ function peep() {
   const isFriend = Math.random() < 0.3;
 
   if (isFriend) {
-    mole.innerHTML = `<img src="${FOTO_KAMU}" alt="Bestie">`;
+    mole.innerHTML = `
+      <div class="mouse-friend">
+        <span class="mouse-ear left">🐭</span>
+        <span class="mouse-ear right">🐭</span>
+        <div class="mouse-photo-wrap">
+          <img src="${FOTO_KAMU}" alt="Bestie Tikus">
+        </div>
+        <span class="mouse-whisker left">~</span>
+        <span class="mouse-whisker right">~</span>
+        <span class="mouse-nose">🐽</span>
+      </div>
+    `;
     mole.dataset.type = "friend";
   } else {
     mole.textContent = TARGET_ICONS[Math.floor(Math.random() * TARGET_ICONS.length)];
@@ -237,14 +257,14 @@ holes.forEach((hole) => {
 
     if (mole.dataset.type === "friend") {
       score = Math.max(0, score - 1);
-      playTone("oops");
+      playTone("squeak");
       setMascotMood("😱", true);
 
       gameContainer.classList.remove("shake");
       void gameContainer.offsetWidth;
       gameContainer.classList.add("shake");
 
-      spawnFloatingText(cx, cy, "-1 😅", "#E03131");
+      spawnFloatingText(cx, cy, "CIT! 🐭", "#E03131");
       const oopsMsg = KATA_SALAH_PUKUL[Math.floor(Math.random() * KATA_SALAH_PUKUL.length)];
       updateMessage(oopsMsg, "oops");
     } else {
