@@ -25,16 +25,70 @@ const TARGET_ICONS = ["👾", "🦄", "🍄", "🍬", "🛸"];
 const BURST_ICONS = ["✨", "💖", "⭐", "🌸", "🎉"];
 
 // ==========================================
-// 🎵 EFEK SUARA RINGAN (WEB AUDIO API)
+// 🎵 EFEK SUARA & BACKSOUND CERIA (WEB AUDIO API)
 // ==========================================
 let soundEnabled = true;
 let audioCtx;
+let bgmInterval = null;
+let noteIndex = 0;
 
-function playTone(type) {
-  if (!soundEnabled) return;
+// Rangkaian nada melodi ceria (dalam Hz)
+const BGM_MELODY = [
+  523.25, 659.25, 783.99, 659.25, // C5 - E5 - G5 - E5
+  587.33, 698.46, 880.00, 698.46, // D5 - F5 - A5 - F5
+  659.25, 783.99, 1046.5, 783.99, // E5 - G5 - C6 - G5
+  587.33, 659.25, 523.25, 0       // D5 - E5 - C5 - jeda
+];
+
+function initAudio() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   }
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+}
+
+function startBGM() {
+  stopBGM();
+  if (!soundEnabled) return;
+  initAudio();
+  noteIndex = 0;
+
+  bgmInterval = setInterval(() => {
+    if (!soundEnabled || timeUp) return;
+    const freq = BGM_MELODY[noteIndex % BGM_MELODY.length];
+    noteIndex++;
+
+    if (freq > 0) {
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(freq, now);
+
+      gain.gain.setValueAtTime(0.055, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.23);
+    }
+  }, 260);
+}
+
+function stopBGM() {
+  if (bgmInterval) {
+    clearInterval(bgmInterval);
+    bgmInterval = null;
+  }
+}
+
+function playTone(type) {
+  if (!soundEnabled) return;
+  initAudio();
+
   const now = audioCtx.currentTime;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
@@ -54,7 +108,7 @@ function playTone(type) {
     osc.frequency.setValueAtTime(950, now);
     osc.frequency.exponentialRampToValueAtTime(1750, now + 0.08);
     osc.frequency.exponentialRampToValueAtTime(720, now + 0.18);
-    gain.gain.setValueAtTime(0.22, now);
+    gain.gain.setValueAtTime(0.24, now);
     gain.gain.exponentialRampToValueAtTime(0.01, now + 0.19);
     osc.start(now);
     osc.stop(now + 0.19);
@@ -73,12 +127,12 @@ function playTone(type) {
       const g = audioCtx.createGain();
       o.type = "sine";
       o.frequency.setValueAtTime(freq, now + idx * 0.1);
-      g.gain.setValueAtTime(0.15, now + idx * 0.1);
-      g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.1 + 0.25);
+      g.gain.setValueAtTime(0.16, now + idx * 0.1);
+      g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.1 + 0.28);
       o.connect(g);
       g.connect(audioCtx.destination);
       o.start(now + idx * 0.1);
-      o.stop(now + idx * 0.1 + 0.25);
+      o.stop(now + idx * 0.1 + 0.28);
     });
   }
 }
@@ -86,6 +140,12 @@ function playTone(type) {
 function toggleSound() {
   soundEnabled = !soundEnabled;
   document.getElementById("soundBtn").textContent = soundEnabled ? "🔊" : "🔇";
+
+  if (!soundEnabled) {
+    stopBGM();
+  } else if (!timeUp && startBtn.disabled) {
+    startBGM();
+  }
 }
 
 // ==========================================
@@ -214,6 +274,7 @@ function startGame() {
   setMascotMood("🤩", true);
   updateMessage("Ayo kumpulin poin ceria sebanyak-banyaknya! 💪", "normal");
 
+  startBGM();
   peep();
 
   countdownTimer = setInterval(() => {
@@ -222,6 +283,7 @@ function startGame() {
     if (timeLeft <= 0) {
       clearInterval(countdownTimer);
       timeUp = true;
+      stopBGM();
       startBtn.disabled = false;
       startBtn.textContent = "Main Lagi! 🔄";
       setMascotMood("🥳", true);
