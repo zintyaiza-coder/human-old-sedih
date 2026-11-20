@@ -1,7 +1,7 @@
 // ==========================================
 // 🔧 KUSTOMISASI MUDAH DI SINI
 // ==========================================
-const FOTO_KAMU = "foto1.jpeg";[cite: 1]
+const FOTO_KAMU = "foto1.jpeg";
 
 const KATA_SEMANGAT = [
   "Keren banget! anjayyy gelo bos ✨",
@@ -32,12 +32,11 @@ let audioCtx;
 let bgmInterval = null;
 let noteIndex = 0;
 
-// Rangkaian nada melodi ceria (dalam Hz)
 const BGM_MELODY = [
-  523.25, 659.25, 783.99, 659.25, // C5 - E5 - G5 - E5
-  587.33, 698.46, 880.00, 698.46, // D5 - F5 - A5 - F5
-  659.25, 783.99, 1046.5, 783.99, // E5 - G5 - C6 - G5
-  587.33, 659.25, 523.25, 0       // D5 - E5 - C5 - jeda
+  523.25, 659.25, 783.99, 659.25,
+  587.33, 698.46, 880.00, 698.46,
+  659.25, 783.99, 1046.5, 783.99,
+  587.33, 659.25, 523.25, 0
 ];
 
 function initAudio() {
