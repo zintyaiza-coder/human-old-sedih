@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sunny Boost! ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Animasi Awan & Bintang -->
+  <div class="bg-decor" id="bgDecor">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="sparkle" style="top: 14%; left: 12%; animation-delay: 0s;">✨</div>
+    <div class="sparkle" style="top: 18%; right: 14%; animation-delay: 0.8s;">🌸</div>
+    <div class="sparkle" style="bottom: 18%; left: 10%; animation-delay: 1.5s;">⭐</div>
+    <div class="sparkle" style="bottom: 14%; right: 12%; animation-delay: 2.1s;">🌼</div>
+  </div>
+
+  <div class="game-container" id="gameContainer">
+    <div class="header-row">
+      <div class="mascot" id="mascot">🐣</div>
+      <h1>Sunny Boost!</h1>
+    </div>
+    <p class="subtitle">Tap target lucunya, awas jangan pukul fotoku! 😄</p>
+
+    <div class="hud">
+      <div>Skor: <span id="score">0</span></div>
+      <div>Waktu: <span id="time">30</span>d</div>
+      <button class="sound-btn" id="soundBtn" title="Suara" onclick="toggleSound()">🔊</button>
+    </div>
+
+    <div class="message-box" id="messageBox">
+      Siap bikin hari ini makin cerah? Klik "Mulai Main"! 🌈
+    </div>
+
+    <div class="grid">
+      <div class="hole"><div class="mole"></div></div>
+      <div class="hole"><div class="mole"></div></div>
+      <div class="hole"><div class="mole"></div></div>
+      <div class="hole"><div class="mole"></div></div>
+      <div class="hole"><div class="mole"></div></div>
+      <div class="hole"><div class="mole"></div></div>
+      <div class="hole"><div class="mole"></div></div>
+      <div class="hole"><div class="mole"></div></div>
+      <div class="hole"><div class="mole"></div></div>
+    </div>
+
+    <button id="startBtn" onclick="startGame()">Mulai Main! 🚀</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
